@@ -1,0 +1,29 @@
+[
+  {
+    "title": "Libro",
+    "description": "Desarrollo personal",
+    "price": 5400,
+    "thumbnail": "thumbnail",
+    "code": 1,
+    "stock": 6,
+    "id": 1
+  },
+  {
+    "title": "Libro",
+    "description": "Ficcion",
+    "price": 3800,
+    "thumbnail": "thumbnail",
+    "code": 2,
+    "stock": 6,
+    "id": 2
+  },
+  {
+    "title": "Libro",
+    "description": "Finanzas",
+    "price": 6500,
+    "thumbnail": "thumbnail",
+    "code": 3,
+    "stock": 6,
+    "id": 3
+  }
+]

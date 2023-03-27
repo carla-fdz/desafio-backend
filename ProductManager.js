@@ -1,12 +1,22 @@
-let products = []
+let products = [];
+
+const fs = require ('fs');
 
 class ProductManager {
     constructor(){
         this.products = products
+        this.path = './data.json'
     }
 
+    archivoJson = async () => {
+        try {
+            const toJson = JSON.stringify(this.products, 'null', 2)
+            await fs.promises.writeFile(this.path, toJson, 'utf-8')
+        }
+        catch (err) { return console.log(err) }
+    }
 
-    addProduct = (title, description, price, thumbnail, code, stock) => {
+    addProducts = (title, description, price, thumbnail, code, stock) => {
         const product = {
             title,
             description,
@@ -16,60 +26,84 @@ class ProductManager {
             stock
         }
 
-        if (this.products.length === 0){
-            product.id = 1;
+        if(this.products.length === 0){
+            product.id = 1
         } else {
-            product.id = this.products[this.products.length - 1].id + 1;
+            product.id = this.products[this.products.length - 1].id + 1
         }
 
-        const productCode = this.products.find(prod => prod.code === product.code)
-        if (productCode) {
-            console.log('Error, el producto ya ha sido ingresado');
+        if (Object.values(product).every(value => value)){
+            this.products.push(product)
+            this.archivoJson()
         } else {
-            if (Object.values(product).every(value => value)){
-                this.products.push(product);
-            } else {
-                console.log('Error, falta completar todos los campos')
-            }
+            console.log('Todos los campos son obligatorios')
         }
     }
 
     getProducts = () => {
-        if (this.products.length === 0) {
-            return console.log('No hay productos') 
-        } else {
-            return this.products;
+        return this.products
+    }
+
+    getProductsById = (id) => {
+        const obj = this.products.find(product => product.id === id)
+        return obj ? obj : console.log('No products found')
+    }
+
+    updateProduct = async () => {
+        try {
+            let readFile = await fs.promises.readFile(this.path, 'utf-8')
+            return console.log(readFile)
         }
+        catch (err) { return console.log(err) }
     }
 
-    getProductById = (id) => {
-        const productId = this.products.find(product => product.id === id);
-        console.log('Producto encontrado', productId);
-        (!productId) ? console.log('Producto no encontrado') : console.log('Producto existente')
+    deleteProduct = async () => {
+        try { 
+            let readFile = await fs.promises.readFile(this.path, 'utf-8')
+            return console.log(readFile)
+        }
+        catch (err) { return console.log(err) }
     }
-
 }
 
-const product = new ProductManager();
 
-product.addProduct(
-    'Producto 1',
-    'Lorem ipsum',
-    200,
-    'Link',
+const product = new ProductManager()
+
+product.addProducts(
+    'Libro',
+    'Desarrollo personal',
+    5400,
+    'thumbnail',
     001,
-    30
+    6
 );
 
-product.addProduct(
-    'Producto 2',
-    'Lorem ipsum',
-    650,
-    'Sin imagen',
+product.addProducts(
+    'Libro',
+    'Ficcion',
+    3800,
+    'thumbnail',
     002,
-    15
+    6
 );
 
-console.log(product.getProducts());
+product.addProducts(
+    'Libro',
+    'Finanzas',
+    6500,
+    'thumbnail',
+    003,
+    6
+);
 
-// console.log(product.getProductById(2));
+
+console.log(product.getProducts())
+
+// console.log(product.getProductsById(1))
+
+
+
+
+
+
+
