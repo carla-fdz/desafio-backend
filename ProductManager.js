@@ -36,31 +36,54 @@ class ProductManager {
             this.products.push(product)
             this.archivoJson()
         } else {
-            console.log('Todos los campos son obligatorios')
+            return console.log('Todos los campos son obligatorios')
         }
     }
 
-    getProducts = () => {
-        return this.products
-    }
-
-    getProductsById = (id) => {
-        const obj = this.products.find(product => product.id === id)
-        return obj ? obj : console.log('No products found')
-    }
-
-    updateProduct = async () => {
+    getProducts = async () => {
+        // return this.products
         try {
-            let readFile = await fs.promises.readFile(this.path, 'utf-8')
+            const readFile = await fs.promises.readFile(this.path, 'utf-8');
             return console.log(readFile)
         }
         catch (err) { return console.log(err) }
     }
 
-    deleteProduct = async () => {
+    getProductsById = async (id) => {
+        try {
+            const readFile = await fs.promises.readFile(this.path, 'utf-8')
+            const obj = JSON.parse(readFile)
+            const find = obj.find(product => product.id === id)
+            return find ? find : console.log('No products found')
+            // return console.log(readFile)
+        }
+        catch (err) { return console.log(err) }
+    }
+
+    updateProduct = async (id, obj) => {
+        try {
+            const readFile = await fs.promises.readFile(this.path, 'utf-8')
+            const products = JSON.parse(readFile)
+
+            const returnObj = Object.assign(products[id-1], obj)
+            console.log(products[id-1])
+            this.products = products
+            this.archivoJson()
+
+
+            // return console.log(readFile)
+        }
+        catch (err) { return console.log(err) }
+    }
+
+    deleteProduct = async (id) => {
         try { 
-            let readFile = await fs.promises.readFile(this.path, 'utf-8')
-            return console.log(readFile)
+            const readFile = await fs.promises.readFile(this.path, 'utf-8')
+            const products = JSON.parse(readFile)
+            console.log(products.splice(id-1, 1), 'Producto eliminado')
+            this.products = products
+            this.archivoJson()
+            // return console.log(readFile)
         }
         catch (err) { return console.log(err) }
     }
@@ -97,9 +120,14 @@ product.addProducts(
 );
 
 
-console.log(product.getProducts())
+console.log(product.getProducts());
 
 // console.log(product.getProductsById(1))
+
+product.deleteProduct(3);
+
+
+
 
 
 

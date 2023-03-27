@@ -16,14 +16,5 @@
     "code": 2,
     "stock": 6,
     "id": 2
-  },
-  {
-    "title": "Libro",
-    "description": "Finanzas",
-    "price": 6500,
-    "thumbnail": "thumbnail",
-    "code": 3,
-    "stock": 6,
-    "id": 3
   }
 ]
